@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prantik Deb - AI Research & Computer Vision</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Prantik's Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,6 +14,7 @@
 
         :root {
             --primary: #6366f1;
+            --primary-light: #818cf8;
             --secondary: #06b6d4;
             --accent: #f59e0b;
             --success: #10b981;
@@ -23,6 +24,7 @@
             --text: #ffffff;
             --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(99, 102, 241, 0.3);
         }
 
         body {
@@ -33,7 +35,10 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
         .bg-animation {
             position: fixed;
             top: 0;
@@ -42,47 +47,38 @@
             height: 100%;
             z-index: 0;
             overflow: hidden;
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
         }
 
-        .orb {
+        .mesh-gradient {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
             opacity: 0.3;
-            animation: float-orb 20s ease-in-out infinite;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 10%, rgba(245, 158, 11, 0.3) 0%, transparent 40%);
+            animation: mesh-move 20s ease-in-out infinite;
         }
 
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--primary), transparent);
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
+        @keyframes mesh-move {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(5%, -5%) rotate(5deg); }
+            66% { transform: translate(-5%, 5%) rotate(-5deg); }
         }
 
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--secondary), transparent);
-            bottom: -150px;
-            left: -150px;
-            animation-delay: 5s;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, var(--accent), transparent);
-            top: 50%;
-            left: 50%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float-orb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-50px, 50px) scale(0.9); }
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         .container {
@@ -93,16 +89,22 @@
             z-index: 1;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(30px) saturate(180%);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
-            padding: 1.25rem 0;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.75rem 0;
+            background: rgba(10, 10, 15, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         nav .container {
@@ -113,11 +115,30 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 800;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            right: -12px;
+            top: 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
         nav ul {
@@ -135,26 +156,26 @@
             position: relative;
         }
 
-        nav a::after {
+        nav a::before {
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
             height: 2px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
 
         nav a:hover {
             color: var(--text);
         }
 
-        nav a:hover::after {
+        nav a:hover::before {
             width: 100%;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -164,55 +185,88 @@
         }
 
         .hero-content {
-            max-width: 900px;
+            max-width: 950px;
         }
 
         .hero-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
             background: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50px;
+            border-radius: 100px;
             color: var(--primary);
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 2rem;
-            animation: fadeInDown 0.8s ease-out;
+            animation: fadeInDown 0.8s ease-out, float 3s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         .hero h1 {
-            font-size: 5rem;
-            font-weight: 800;
+            font-size: 5.5rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
-            line-height: 1.1;
+            line-height: 1.05;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            letter-spacing: -3px;
+        }
+
+        .hero h1 .name {
+            display: block;
             background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeInUp 0.8s ease-out 0.2s backwards;
-            letter-spacing: -2px;
         }
 
-        .hero .gradient-text {
+        .hero h1 .gradient-text {
+            display: block;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             color: var(--text-muted);
             margin-bottom: 2rem;
             animation: fadeInUp 0.8s ease-out 0.4s backwards;
             font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .subtitle-separator {
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
         }
 
         .hero-description {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
             line-height: 1.8;
             margin-bottom: 3rem;
             animation: fadeInUp 0.8s ease-out 0.6s backwards;
-            max-width: 700px;
+            max-width: 750px;
         }
 
         @keyframes fadeInUp {
@@ -244,15 +298,32 @@
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 1.125rem 2.25rem;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
@@ -276,9 +347,9 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
+            transform: translateY(-3px);
         }
 
-        /* Sections */
         section {
             padding: 8rem 0;
             position: relative;
@@ -286,299 +357,187 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
         }
 
         .section-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
             background: rgba(6, 182, 212, 0.1);
             border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 50px;
+            border-radius: 100px;
             color: var(--secondary);
             font-size: 0.875rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
         }
 
         .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--text), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .section-description {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
+            line-height: 1.7;
         }
 
-        /* Glass Card */
         .glass-card {
-            background: rgba(26, 26, 46, 0.6);
-            backdrop-filter: blur(20px);
+            background: rgba(26, 26, 46, 0.5);
+            backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border-radius: 24px;
+            padding: 3rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
         }
 
         .glass-card:hover {
             transform: translateY(-8px);
             border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(99, 102, 241, 0.2);
         }
 
-        /* About Section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .about-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--text), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .about-content p {
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .skills-container {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .skill-category {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .skill-category:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.05);
-        }
-
-        .skill-category h4 {
-            color: var(--secondary);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            padding: 0.4rem 0.875rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        /* Experience Section */
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary), transparent);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3.5rem;
-            top: 0.5rem;
-            width: 16px;
-            height: 16px;
-            background: var(--primary);
-            border: 3px solid var(--bg-dark);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
-        }
-
-        .timeline-content {
-            background: rgba(26, 26, 46, 0.4);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .timeline-content:hover {
-            border-color: var(--primary);
-            transform: translateX(10px);
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .timeline-title {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .timeline-org {
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .timeline-date {
-            color: var(--accent);
-            font-size: 0.875rem;
-            font-weight: 600;
-            padding: 0.375rem 0.875rem;
-            background: rgba(245, 158, 11, 0.1);
-            border-radius: 8px;
-        }
-
-        .timeline-description {
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
-        .timeline-description ul {
-            padding-left: 1.25rem;
-        }
-
-        .timeline-description li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Publications */
         .publications-grid {
             display: grid;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .publication-card {
             background: rgba(26, 26, 46, 0.4);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.3s;
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .publication-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .publication-card:hover::after {
+            opacity: 1;
         }
 
         .publication-card:hover {
             border-color: var(--secondary);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(6, 182, 212, 0.2);
         }
 
         .publication-badge {
             display: inline-block;
-            padding: 0.375rem 0.875rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 8px;
-            color: var(--primary);
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 10px;
+            color: var(--primary-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
         }
 
         .publication-title {
-            font-size: 1.375rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             color: var(--text);
+            line-height: 1.4;
         }
 
         .publication-venue {
             color: var(--secondary);
             font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
         }
 
         .publication-meta {
             color: var(--text-muted);
-            font-size: 0.925rem;
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.9;
         }
 
-        /* Projects */
+        .publication-links {
+            margin-top: 1.75rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pub-link {
+            padding: 0.625rem 1.25rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pub-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
         }
 
         .project-card {
             background: rgba(26, 26, 46, 0.4);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border-radius: 24px;
+            padding: 3rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
@@ -591,7 +550,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             transform: scaleX(0);
             transition: transform 0.3s;
@@ -604,150 +563,259 @@
         .project-card:hover {
             transform: translateY(-10px);
             border-color: var(--primary);
-            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.3);
         }
 
         .project-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
         .project-title {
-            font-size: 1.375rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             color: var(--text);
+            line-height: 1.3;
         }
 
         .project-description {
             color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 0.975rem;
+            line-height: 1.9;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* Contact Section */
+        .project-tags {
+            display: flex;
+            gap: 0.625rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: var(--primary);
+            font-size: 0.825rem;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), transparent);
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.875rem;
+            top: 0.75rem;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border: 4px solid var(--bg-dark);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: rgba(26, 26, 46, 0.4);
+            backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--primary);
+            transform: translateX(15px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-org {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .timeline-date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            background: rgba(245, 158, 11, 0.15);
+            border-radius: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .timeline-description {
+            color: var(--text-muted);
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .timeline-description ul {
+            padding-left: 1.5rem;
+        }
+
+        .timeline-description li {
+            margin-bottom: 0.75rem;
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 2.5rem;
+            margin-top: 4rem;
         }
 
         .contact-card {
             background: rgba(26, 26, 46, 0.4);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border-radius: 24px;
+            padding: 3rem;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.4s ease;
         }
 
         .contact-card:hover {
             border-color: var(--primary);
-            transform: translateY(-8px);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.3);
         }
 
         .contact-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
+            font-size: 2.25rem;
+            margin: 0 auto 1.75rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
         }
 
         .contact-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
+            font-size: 1.375rem;
+            margin-bottom: 1.25rem;
             color: var(--text);
+            font-weight: 600;
         }
 
         .contact-card a {
             color: var(--text-muted);
             text-decoration: none;
             transition: color 0.3s;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
         .contact-card a:hover {
             color: var(--primary);
         }
 
-        /* Footer */
         footer {
             background: rgba(26, 26, 46, 0.4);
             border-top: 1px solid var(--border);
-            padding: 3rem 0;
+            padding: 4rem 0;
             text-align: center;
             color: var(--text-muted);
         }
 
         footer p {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 4rem;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.25rem;
-            }
-
-            nav ul {
-                gap: 1.25rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .timeline-header {
-                flex-direction: column;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll Progress Bar */
         .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             width: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             z-index: 9999;
             transition: width 0.1s;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.75rem;
+            }
+            .hero-subtitle {
+                font-size: 1.35rem;
+            }
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+            .section-title {
+                font-size: 2.25rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline {
+                padding-left: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -755,19 +823,18 @@
     <div class="scroll-progress"></div>
     
     <div class="bg-animation">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+        <div class="mesh-gradient"></div>
+        <div class="noise-overlay"></div>
     </div>
 
-    <nav>
+    <nav id="nav">
         <div class="container">
             <div class="logo">PRANTIK DEB</div>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#research">Research</a></li>
+                <li><a href="#research-vision">Research</a></li>
+                <li><a href="#publications">Publications</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -776,20 +843,190 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-badge">🚀 Open to Research & Industry Opportunities</div>
-                <h1>Hi, I'm <span class="gradient-text">Prantik Deb</span></h1>
-                <div class="hero-subtitle">AI Researcher | Computer Vision | Healthcare AI</div>
+                <div class="hero-badge">
+                    <span class="status-dot"></span>
+                    Open to Research & Industry Opportunities
+                </div>
+                <h1>
+                    <span class="name">Hi, I'm</span>
+                    <span class="gradient-text">Prantik Deb</span>
+                </h1>
+                <div class="hero-subtitle">
+                    <span>AI Researcher</span>
+                    <span class="subtitle-separator"></span>
+                    <span>Computer Vision</span>
+                    <span class="subtitle-separator"></span>
+                    <span>Healthcare AI</span>
+                </div>
                 <p class="hero-description">
-                    MS by Research student at IIIT Hyderabad, specializing in medical imaging, vision-language models, and deep learning applications in healthcare. Passionate about leveraging AI to solve real-world clinical challenges in the Indian context.
+                    MS by Research student at IIIT Hyderabad, specializing in medical imaging and vision-language models for healthcare. Passionate about applying AI to solve real-world clinical challenges in the Indian context.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">
-                        <span>Let's Connect</span>
+                    <a href="#publications" class="btn btn-primary">
+                        <span>View Publications</span>
                         <span>→</span>
                     </a>
-                    <a href="#research" class="btn btn-secondary">
-                        <span>View Research</span>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>Get in Touch</span>
                     </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research-vision">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Research Vision</div>
+                <h2 class="section-title">Democratizing AI-Powered Healthcare</h2>
+            </div>
+            <div class="glass-card" style="max-width: 950px; margin: 0 auto;">
+                <p style="color: var(--text-muted); font-size: 1.2rem; line-height: 1.9; margin-bottom: 1.75rem;">
+                    My research focuses on developing multimodal AI models that can operate effectively in resource-constrained clinical environments. I work at the intersection of medical imaging, and multimodel large language models.
+                </p>
+            </div>
+
+            <div style="margin-top: 5rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
+                    <div class="glass-card" style="padding: 2.5rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);">🧠</div>
+                        <h4 style="color: var(--text); font-size: 1.375rem; margin-bottom: 1rem; font-weight: 600;">Vision-Language Models</h4>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;">Adapting LLMs and VLMs for medical image interpretation, focusing on chest X-ray analysis and clinical decision support.</p>
+                    </div>
+                    <div class="glass-card" style="padding: 2.5rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);">📐</div>
+                        <h4 style="color: var(--text); font-size: 1.375rem; margin-bottom: 1rem; font-weight: 600;">Model Compression</h4>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;">Developing quantization-aware and low-rank adaptation techniques for efficient medical imaging models.</p>
+                    </div>
+                    <div class="glass-card" style="padding: 2.5rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);">🏥</div>
+                        <h4 style="color: var(--text); font-size: 1.375rem; margin-bottom: 1rem; font-weight: 600;">Clinical Translation</h4>
+                        <p style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;">Creating practical AI solutions tailored for Indian healthcare contexts through real-world clinical collaborations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="publications">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Publications</div>
+                <h2 class="section-title">Research Contributions</h2>
+                <p class="section-description">Peer-reviewed publications and ongoing research in medical imaging AI</p>
+            </div>
+            
+            <div class="publications-grid">
+                <div class="publication-card">
+                    <div class="publication-badge">MICCAI 2023</div>
+                    <div class="publication-title">BeSt-LeS: Benchmarking Stroke Lesion Segmentation using Deep Supervision</div>
+                    <div class="publication-venue">BrainLes 2023 & SWITCH 2023 Workshop</div>
+                    <div class="publication-meta">
+                        <strong style="color: var(--text);">Authors:</strong> Deb, Prantik et al.<br>
+                        <strong style="color: var(--text);">Published:</strong> Lecture Notes in Computer Science, vol. 14668, pp. 67–78. Springer Nature, 2024.
+                    </div>
+                    <div class="publication-links">
+                        <a href="https://doi.org/10.1007/978-3-031-55529-7_6" target="_blank" class="pub-link">Paper</a>
+                    </div>
+                </div>
+
+                <div class="publication-card">
+                    <div class="publication-badge">ICDAR 2025</div>
+                    <div class="publication-title">Adapting Vision-Language Models for Hindi OCR</div>
+                    <div class="publication-venue">International Conference on Document Analysis and Recognition</div>
+                    <div class="publication-meta">
+                        <strong style="color: var(--text);">Authors:</strong> Bhattacharyya, S., Ghosh, S., Deb, P., Mondal, A., and Jawahar, C.V.<br>
+                        <strong style="color: var(--text);">Published:</strong> Proceedings of ICDAR 2025. Springer Nature Switzerland, 2025.
+                    </div>
+                    <div class="publication-links">
+                        <a href="#" class="pub-link">Paper</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 5rem;">
+                <h3 style="text-align: center; font-size: 2.25rem; margin-bottom: 3rem; color: var(--text); font-weight: 700;">Preprints & Under Review</h3>
+                <div class="publication-card" style="border: 2px dashed rgba(245, 158, 11, 0.3);">
+                    <div class="publication-badge" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); color: var(--accent);">UNDER REVIEW</div>
+                    <div class="publication-title">ADALORA-QAT: Adaptive Low-Rank and Quantization Aware Segmentation</div>
+                    <div class="publication-venue">Submitted to ISBI 2026</div>
+                    <div class="publication-meta">
+                        <strong style="color: var(--text);">Authors:</strong> Deb, Prantik et al.<br>
+                        <strong style="color: var(--text);">Status:</strong> Under submission
+                    </div>
+                    <div class="publication-links">
+                        <span style="padding: 0.625rem 1.25rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 10px; color: var(--accent); font-size: 0.9rem; font-weight: 600;">📝 Preprint Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 5rem;">
+                <div class="glass-card">
+                    <h3 style="color: var(--secondary); margin-bottom: 3rem; font-size: 2rem; text-align: center; font-weight: 700;">Academic Service & Conference Participation</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                        <div>
+                            <h4 style="color: var(--text); margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 600;">Volunteer Service</h4>
+                            <div style="color: var(--text-muted); line-height: 2; font-size: 1rem;">
+                                <div style="margin-bottom: 0.625rem;">• ICLR 2023</div>
+                                <div style="margin-bottom: 0.625rem;">• ICLR 2022</div>
+                                <div style="margin-bottom: 0.625rem;">• NeurIPS 2021</div>
+                                <div>• IJCAI 2021</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--text); margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 600;">Diversity & Inclusion Fellowships</h4>
+                            <div style="color: var(--text-muted); line-height: 2; font-size: 1rem;">
+                                <div style="margin-bottom: 0.625rem;">• CVPR 2023</div>
+                                <div style="margin-bottom: 0.625rem;">• CVPR 2022</div>
+                                <div style="margin-bottom: 0.625rem;">• ECCV 2022</div>
+                                <div style="margin-bottom: 0.625rem;">• ICCV 2021</div>
+                                <div>• ICML 2021</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--text); margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 600;">Training & Workshops</h4>
+                            <div style="color: var(--text-muted); line-height: 2; font-size: 1rem;">
+                                <div style="margin-bottom: 0.625rem;">• UCL Medical Image Computing Summer School (MedICSS 2023)</div>
+                                <div>• ML × Health Summer School, Oxford University (2023)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Projects</div>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">🫁</div>
+                    <div class="project-title">Chest X-Ray Interpretation with VLMs</div>
+                    <p class="project-description">
+                        Chest X-ray radiology report generation, in collaboration with NIMS Hospital.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">LLMs</span>
+                        <span class="project-tag">VLMs</span>
+                        <span class="project-tag">Medical Imaging</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">✃</div>
+                    <div class="project-title">Surgical Scene Segmentation & 3D Reconstruction</div>
+                    <p class="project-description">
+                        Computer vision project analyzing surgical videos using the EndoNeRF dataset. Implemented segmentation with SAM model variations and explored NeRF and Gaussian splatting for dynamic 3D reconstruction of surgical scenes.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3); color: var(--secondary);">SAM</span>
+                        <span class="project-tag" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3); color: var(--secondary);">NeRF</span>
+                        <span class="project-tag" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3); color: var(--secondary);">3D Reconstruction</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -798,83 +1035,51 @@
     <section id="about">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge">About Me</div>
-                <h2 class="section-title">Research Focus & Expertise</h2>
+                <div class="section-badge">👤 About Me</div>
+                <h2 class="section-title">Education & Expertise</h2>
             </div>
-            <div class="about-grid">
-                <div class="about-content">
-                    <h3>Building AI for Healthcare</h3>
-                    <p>
-                        I'm currently pursuing my Master's of Science by Research in Computer Science at IIIT Hyderabad, where I work at the intersection of artificial intelligence and healthcare.
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: start;">
+                <div>
+                    <h3 style="font-size: 2.25rem; margin-bottom: 1.75rem; background: linear-gradient(135deg, var(--text), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Collaborative Research at the Frontier</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.075rem; line-height: 1.9;">
+                        My work bridges fundamental AI research with clinical applications through collaboration with Nizam's Institute of Medical Sciences (NIMS) Hospital. Under the guidance of Prof. Bapi Raju S. (IIIT-H), Dr. Tapabrata Chakraborty (UCL), and Dr. Anu Kapoor (NIMS).
                     </p>
-                    <p>
-                        My research focuses on medical imaging analysis, with particular emphasis on chest X-ray interpretation using Large Language Models (LLMs) and Vision-Language Models (VLMs) tailored for the Indian clinical context.
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.075rem; line-height: 1.9;">
+                        My technical expertise spans large language models, vision-language models, and model compression with a specific focus on making advanced AI accessible and practical for Indian healthcare contexts.
                     </p>
-                    <p>
-                        I collaborate with Nizam's Institute of Medical Sciences (NIMS) Hospital, working under the guidance of Prof. Bapi Raju S. (IIIT-H) and Dr. Tapabrata Chakraborty (UCL), developing AI solutions that bridge the gap between cutting-edge research and clinical practice.
-                    </p>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">2+</div>
-                            <div class="stat-label">Publications</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">7+</div>
-                            <div class="stat-label">Conferences</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">3+</div>
-                            <div class="stat-label">Years Research</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">7.83</div>
-                            <div class="stat-label">CGPA</div>
+                    
+                    <div style="padding: 2rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 16px;">
+                        <h4 style="color: var(--secondary); margin-bottom: 1.25rem; font-size: 1.125rem; font-weight: 600;">Key Collaborations</h4>
+                        <div style="color: var(--text-muted); font-size: 1rem; line-height: 2;">
+                            <div style="margin-bottom: 0.75rem;">🏥 <strong style="color: var(--text);">NIMS Hospital</strong> - Clinical and data partner</div>
+                            <div style="margin-bottom: 0.75rem;">🎓 <strong style="color: var(--text);">UCL</strong> - Medical imaging research</div>
+                            <div>🔬 <strong style="color: var(--text);">IHub-Data</strong> - Healthcare AI innovation</div>
                         </div>
                     </div>
                 </div>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h4>Deep Learning & AI</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">PyTorch</span>
-                            <span class="skill-tag">LLMs</span>
-                            <span class="skill-tag">VLMs</span>
-                            <span class="skill-tag">Transformers</span>
-                            <span class="skill-tag">CNNs</span>
+                <div style="display: grid; gap: 1.75rem;">
+                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem;">
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.05rem; font-weight: 600;">Computer Vision, Deep Learning, & AI</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.625rem;">
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">PyTorch</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">Medical Imaging</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">LLMs</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">VLMs</span>
                         </div>
                     </div>
-                    <div class="skill-category">
-                        <h4>Computer Vision</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Medical Imaging</span>
-                            <span class="skill-tag">Segmentation</span>
-                            <span class="skill-tag">SAM</span>
-                            <span class="skill-tag">NeRF</span>
-                            <span class="skill-tag">3D Reconstruction</span>
+                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem;">
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.05rem; font-weight: 600;">Programming</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.625rem;">
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">Python</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">C</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">C++</span>
                         </div>
                     </div>
-                    <div class="skill-category">
-                        <h4>Programming</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">C</span>
-                            <span class="skill-tag">C++</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h4>Research Domains</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Healthcare AI</span>
-                            <span class="skill-tag">Medical Diagnostics</span>
-                            <span class="skill-tag">OCR</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h4>Languages</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">English</span>
-                            <span class="skill-tag">Hindi</span>
-                            <span class="skill-tag">Bengali</span>
+                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem;">
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.05rem; font-weight: 600;">Research Domains</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.625rem;">
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">Healthcare AI</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted);">Medical Diagnostics</span>
                         </div>
                     </div>
                 </div>
@@ -893,17 +1098,34 @@
                     <div class="timeline-content">
                         <div class="timeline-header">
                             <div>
+                                <div class="timeline-title">Senior AI Research Intern</div>
+                                <div class="timeline-org">Knowurskin (Infinity360Health Pvt. Ltd.)</div>
+                            </div>
+                            <div class="timeline-date">Sep. 2025 – Present</div>
+                        </div>
+                        <div class="timeline-description">
+                            <ul>
+                                <li>Building AI models for facial skin analysis and personalized beauty recommendations at an early-stage startup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div>
                                 <div class="timeline-title">Graduate Research Fellow</div>
-                                <div class="timeline-org">Cognitive Science Lab & Ihub-Data, IIIT Hyderabad</div>
+                                <div class="timeline-org">Cognitive Science Lab & IHub-Data, IIIT Hyderabad</div>
                             </div>
                             <div class="timeline-date">July 2022 – Present</div>
                         </div>
                         <div class="timeline-description">
                             <ul>
-                                <li>Developing AI solutions for medical imaging in the Healthcare and AI (HAI) vertical</li>
-                                <li>Working with LLMs and VLMs to interpret chest X-rays and support clinical diagnostics</li>
-                                <li>Collaborating with NIMS Hospital for real-world clinical applications</li>
-                                <li>Focusing on adapting AI models for the Indian healthcare context</li>
+                                <li>Leading research on multimodal large language models for chest X-ray interpretation and clinical decision support</li>
+                                <li>Collaborating with NIMS Hospital</li>
+                                <li>Developing efficient AI models tailored for resource-constrained Indian healthcare settings</li>
+                                <li>Working under Prof. Bapi Raju S. (IIIT-H), Dr. Tapabrata Chakraborty (UCL), and Dr. Anu Kapoor (NIMS)</li>
                             </ul>
                         </div>
                     </div>
@@ -914,12 +1136,12 @@
                         <div class="timeline-header">
                             <div>
                                 <div class="timeline-title">Teaching Assistant</div>
-                                <div class="timeline-org">AI for Medical Professionals Course 2.0, Ihub-Data</div>
+                                <div class="timeline-org">AI for Medical Professionals Course 2.0, IHub-Data</div>
                             </div>
                             <div class="timeline-date">June 2025 – Sept. 2025</div>
                         </div>
                         <div class="timeline-description">
-                            Supporting medical professionals in understanding and applying AI techniques in healthcare settings.
+                            Guided medical professionals in understanding and applying AI techniques in clinical settings, bridging the gap between healthcare practice and AI technology.
                         </div>
                     </div>
                 </div>
@@ -929,113 +1151,14 @@
                         <div class="timeline-header">
                             <div>
                                 <div class="timeline-title">Teaching Assistant</div>
-                                <div class="timeline-org">AI for Medical Professionals Course 1.0, Ihub-Data</div>
+                                <div class="timeline-org">AI for Medical Professionals Course 1.0, IHub-Data</div>
                             </div>
                             <div class="timeline-date">Sept. 2024 – Dec. 2024</div>
                         </div>
                         <div class="timeline-description">
-                            Assisted in teaching AI fundamentals and applications to medical practitioners.
+                            Assisted in teaching AI fundamentals and applications to healthcare practitioners, contributing to medical AI education.
                         </div>
                     </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div>
-                                <div class="timeline-title">Intern</div>
-                                <div class="timeline-org">Indian Oil Corporation Limited, Guwahati Refinery</div>
-                            </div>
-                            <div class="timeline-date">July 2018 – Aug. 2018</div>
-                        </div>
-                        <div class="timeline-description">
-                            Led project team in designing architecture and UI for the "Quarter Allotment" Android application.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="research">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Publications</div>
-                <h2 class="section-title">Research & Publications</h2>
-                <p class="section-description">Contributing to cutting-edge research in medical imaging and AI</p>
-            </div>
-            
-            <div class="publications-grid">
-                <div class="publication-card">
-                    <div class="publication-badge">MICCAI 2023</div>
-                    <div class="publication-title">BeSt-LeS: Benchmarking Stroke Lesion Segmentation using Deep Supervision</div>
-                    <div class="publication-venue">BrainLes 2023 & SWITCH 2023</div>
-                    <div class="publication-meta">
-                        <strong>Authors:</strong> Deb, Prantik et al.<br>
-                        <strong>Published in:</strong> Lecture Notes in Computer Science, vol. 14668, pp. 67–78. Springer Nature, 2024.<br>
-                        <strong>DOI:</strong> 10.1007/978-3-031-55529-7_6
-                    </div>
-                </div>
-
-                <div class="publication-card">
-                    <div class="publication-badge">ICDAR 2025</div>
-                    <div class="publication-title">Adapting Vision-Language Models for Hindi OCR</div>
-                    <div class="publication-venue">International Conference on Document Analysis and Recognition</div>
-                    <div class="publication-meta">
-                        <strong>Authors:</strong> Bhattacharyya, S., Ghosh, S., Deb, P., Mondal, A., and Jawahar, C.V.<br>
-                        <strong>Published in:</strong> Proceedings of ICDAR 2025. Springer Nature Switzerland, 2025.
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 4rem;">
-                <div class="glass-card">
-                    <h3 style="color: var(--secondary); margin-bottom: 1.5rem; font-size: 1.5rem;">Conference Participation & Recognition</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                        <div>
-                            <h4 style="color: var(--text); margin-bottom: 1rem;">🎯 Volunteered</h4>
-                            <p style="color: var(--text-muted); line-height: 1.8;">ICLR 2023, ICLR 2022, NeurIPS 2021, IJCAI 2021</p>
-                        </div>
-                        <div>
-                            <h4 style="color: var(--text); margin-bottom: 1rem;">🏆 DEI Fellowships</h4>
-                            <p style="color: var(--text-muted); line-height: 1.8;">CVPR 2023, CVPR 2022, ECCV 2022, ICCV 2021, ICML 2021</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Projects</div>
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-description">Innovative solutions at the intersection of AI and real-world applications</p>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-icon">🔬</div>
-                    <div class="project-title">Surgical Scene Segmentation & 3D Reconstruction</div>
-                    <p class="project-description">
-                        Computer vision project focused on surgical video analysis using the EndoNeRF dataset. Implemented tool segmentation using SAM model variations and explored NeRF and Gaussian splatting techniques for dynamic 3D scene reconstruction.
-                    </p>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">🧬</div>
-                    <div class="project-title">Modified Gray Wolf Optimization for Disease Prediction</div>
-                    <p class="project-description">
-                        Undergraduate thesis project implementing modified GWO algorithms for feature selection. Applied machine learning techniques to Parkinson's Disease speech samples, improving classification accuracy through optimized feature engineering.
-                    </p>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">🏥</div>
-                    <div class="project-title">Medical Imaging with LLMs & VLMs</div>
-                    <p class="project-description">
-                        Ongoing research developing vision-language models for chest X-ray interpretation in Indian clinical contexts. Collaborating with NIMS Hospital to create AI-assisted diagnostic tools that support healthcare decision-making.
-                    </p>
                 </div>
             </div>
         </div>
@@ -1054,23 +1177,39 @@
                 <div class="contact-card">
                     <div class="contact-icon">📧</div>
                     <h3>Email</h3>
-                    <a href="mailto:prantikdebpd@gmail.com">prantikdebpd@gmail.com</a><br>
+                    <a href="mailto:prantikdebpd@gmail.com">prantikdebpd@gmail.com</a>
                     <a href="mailto:prantik.d@research.iiit.ac.in">prantik.d@research.iiit.ac.in</a>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">💼</div>
+                    <div class="contact-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </div>
                     <h3>LinkedIn</h3>
-                    <a href="https://linkedin.com/in/prantik-deb" target="_blank">linkedin.com/in/prantik-deb</a>
+                    <a href="https://www.linkedin.com/in/prantik-deb-759948b9/" target="_blank">linkedin.com/in/prantik-deb</a>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">💻</div>
-                    <h3>GitHub</h3>
-                    <a href="https://github.com/prantik" target="_blank">github.com/prantik</a>
+                    <div class="contact-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </div>
+                    <h3>X / Twitter</h3>
+                    <a href="https://x.com/prantikDebAI" target="_blank">@prantikDebAI</a>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">📱</div>
-                    <h3>Phone</h3>
-                    <a href="tel:+918638789426">+91 8638789426</a>
+                    <div class="contact-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3>Google Scholar</h3>
+                    <a href="https://scholar.google.com/citations?hl=en&user=3afSp28AAAAJ" target="_blank">View Publications</a>
                 </div>
             </div>
         </div>
@@ -1078,14 +1217,13 @@
 
     <footer>
         <div class="container">
-            <p style="font-size: 1rem; font-weight: 600; color: var(--text);">&copy; 2025 Prantik Deb. All rights reserved.</p>
-            <p style="margin-top: 0.5rem;">MS by Research in Computer Science | IIIT Hyderabad</p>
-            <p style="margin-top: 0.75rem; font-size: 0.875rem;">Built with passion for AI & Healthcare Innovation</p>
+            <p style="font-size: 1.125rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;">&copy; 2025 Prantik Deb. All rights reserved.</p>
+            <p style="font-size: 1rem;">MS by Research in Computer Science | IIIT Hyderabad</p>
+            <p style="margin-top: 1rem; font-size: 0.95rem;">Medical Imaging AI • Multimodal Learning • Healthcare Innovation</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1099,7 +1237,6 @@
             });
         });
 
-        // Scroll progress bar
         window.addEventListener('scroll', () => {
             const scrollProgress = document.querySelector('.scroll-progress');
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -1107,7 +1244,15 @@
             scrollProgress.style.width = scrolled + '%';
         });
 
-        // Intersection Observer for animations
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1122,30 +1267,10 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.timeline-item, .publication-card, .project-card, .glass-card').forEach(el => {
+        document.querySelectorAll('.timeline-item, .publication-card, .project-card, .glass-card, .contact-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
-        });
-
-        // Active navigation link
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const scrollY = window.pageYOffset;
-
-            sections.forEach(section => {
-                const sectionHeight = section.offsetHeight;
-                const sectionTop = section.offsetTop - 100;
-                const sectionId = section.getAttribute('id');
-                const link = document.querySelector(`nav a[href="#${sectionId}"]`);
-
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    link?.classList.add('active');
-                } else {
-                    link?.classList.remove('active');
-                }
-            });
         });
     </script>
 </body>
